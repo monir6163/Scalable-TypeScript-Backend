@@ -10,6 +10,7 @@ import xss from 'xss-clean';
 import { globalErrorHandler } from './app/middleware/globalErrorHandler';
 import routes from './app/routes';
 import config from './config';
+import { sendResponse } from './shared/sendResponse';
 
 const app: Application = express();
 
@@ -45,7 +46,22 @@ app.use(globalErrorHandler);
 
 // health check
 app.get('/', (req, res) => {
-   res.send(`Server is running at 5000 port`);
+   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+   sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: 'Server is running',
+      data: {
+         message: 'Server is running',
+         author: 'Md. Monir Hossain',
+         version: '1.0.0',
+         host: req.hostname,
+         protocol: req.protocol,
+         ip: ip,
+         time: new Date().toISOString(),
+      },
+   });
+   res.end();
 });
 
 //handle not found
