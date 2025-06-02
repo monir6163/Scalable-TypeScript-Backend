@@ -22,4 +22,12 @@ export default {
       api_key: process.env.CLOUDINARY_API_KEY,
       api_secret: process.env.CLOUDINARY_API_SECRET,
    },
+   smtp: {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587,
+      secure: process.env.SMTP_SECURE,
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+      from_email: process.env.FROM_EMAIL,
+   },
 };
