@@ -28,13 +28,6 @@ export const auth =
             config.jwt.secret_token as Secret
          );
          // lastly
-         if (verifiedUser?.exp && verifiedUser?.exp * 1000 < Date.now()) {
-            throw new ApiError(
-               StatusCodes.UNAUTHORIZED,
-               'Token has expired, please login again'
-            );
-         }
-         // lastly
          if (!verifiedUser?.id) {
             throw new ApiError(
                StatusCodes.UNAUTHORIZED,
