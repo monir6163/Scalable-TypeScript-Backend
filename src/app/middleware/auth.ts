@@ -12,12 +12,12 @@ export const auth =
       try {
          const token =
             req.cookies.accessToken ||
-            req.headers.authorization?.replace(/^Bearer\s/, '');
+            req.headers?.authorization?.split(' ')[1];
 
          if (!token) {
             throw new ApiError(
                StatusCodes.UNAUTHORIZED,
-               'You are not authorized'
+               'tt You are not authorized'
             );
          }
 

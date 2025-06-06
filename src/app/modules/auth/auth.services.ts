@@ -67,6 +67,7 @@ const loginUser = async (
 };
 
 const refreshToken = async (token: string): Promise<ILoginResponse | null> => {
+   console.log('Refreshing token...');
    let verifiedToken = null;
    // lastly
    if (!token) {

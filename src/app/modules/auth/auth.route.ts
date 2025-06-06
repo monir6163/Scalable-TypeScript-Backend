@@ -22,7 +22,7 @@ router.post(
 router.post(
    '/refresh-token',
    validateRequest(AuthValidation.createRefreshTokenZodSchema),
-   auth(),
+   // auth(),
    AuthController.refreshToken
 );
 router.get('/logout', auth(), AuthController.logout);
