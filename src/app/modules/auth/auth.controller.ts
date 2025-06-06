@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import { cookieOptions } from '../../../helpers/cookiesOptions';
+import {
+   accessTokenCookieOptions,
+   cookieOptions,
+} from '../../../helpers/cookiesOptions';
 import { catchAsync } from '../../../shared/catchAsync';
 import { sendResponse } from '../../../shared/sendResponse';
 import { IUser } from '../user/user.interface';
@@ -25,7 +28,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
    const result = await AuthServices.loginUser(loginData);
 
    // set refresh token into cookie
-   res.cookie('accessToken', result?.accessToken, cookieOptions);
+   res.cookie('accessToken', result?.accessToken, accessTokenCookieOptions);
    res.cookie('refreshToken', result?.refreshToken, cookieOptions);
    sendResponse<ILoginResponse>(res, {
       statusCode: StatusCodes.OK,
@@ -44,7 +47,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
    const result = await AuthServices.refreshToken(refreshToken);
 
    // set refresh token into cookie
-   res.cookie('accessToken', result?.accessToken, cookieOptions);
+   res.cookie('accessToken', result?.accessToken, accessTokenCookieOptions);
    res.cookie('refreshToken', result?.refreshToken, cookieOptions);
 
    sendResponse<ILoginResponse>(res, {
@@ -73,8 +76,8 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 const logout = catchAsync(async (req: Request, res: Response) => {
    await AuthServices.logout(req.user);
    // clear cookies
-   res.clearCookie('accessToken', cookieOptions);
-   res.clearCookie('refreshToken', cookieOptions);
+   res.clearCookie('accessToken');
+   res.clearCookie('refreshToken');
    sendResponse(res, {
       statusCode: 200,
       success: true,
